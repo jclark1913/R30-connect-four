@@ -14,11 +14,21 @@ let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
+ *    Updates board array to include HEIGHT # of subarrays and WIDTH # of items long
+ *    Example: With default values for WIDTH and HEIGHT, board becomes an array of (6) subarrays,
+ *    each of which contain (7) items.
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
 function makeBoard() {
-  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
+
+  // Generates memory board according to WIDTH and HEIGHT
+  for (let y = 0; y < HEIGHT; y++) {
+    board[y] = [];
+    for (let x = 0; x < WIDTH; x++) {
+      board[y][x] = undefined;
+    }
+  }
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -26,12 +36,12 @@ function makeBoard() {
 function makeHtmlBoard() {
   const htmlBoard = document.getElementById('board');
 
-  // TODO: add comment for this code
+  // Creates tr element for top row and adds handleClick event listener
   const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
 
-  // TODO: add comment for this code
+  // Populates top row with table data cells and adds an id attribute for each
   for (let x = 0; x < WIDTH; x++) {
     const headCell = document.createElement("td");
     headCell.setAttribute("id", `top-${x}`);
@@ -43,19 +53,21 @@ function makeHtmlBoard() {
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
   for (let y = 0; y < HEIGHT; y++) {
-    // TODO: Create a table row element and assign to a "row" variable
+    const row = document.createElement("tr");
 
     for (let x = 0; x < WIDTH; x++) {
-      // TODO: Create a table cell element and assign to a "cell" variable
+      // Creates a table cell variable called cell
+      const cell = document.createElement("td");
 
-      // TODO: add an id, c-y-x, to the above table cell element
+      // Adds an id attribute for each cell (c-y-x)
       // you'll use this later, so make sure you use c-y-x
+      cell.setAttribute("id", `c-${y}-${x}`);
 
-      // TODO: append the table cell to the table row
-
+      // Appends cell to row
+      row.appendChild(cell);
     }
-    // TODO: append the row to the html board
-
+    // Appends row to htmlBoard
+    htmlBoard.append(row);
   }
 }
 
