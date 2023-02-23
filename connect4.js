@@ -75,10 +75,12 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 5
+
   for (let y = 5; y >= 0; y--) {
     if (board[y][x] === undefined) {
       return y;
     }
+
   }
 }
 
@@ -101,7 +103,7 @@ function placeInTable(y, x) {
 /** endGame: announce game end */
 
 function endGame(msg) {
-  // TODO: pop up alert message
+  alert(msg);
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -154,9 +156,15 @@ function checkForWin() {
    */
   function _win(cells) {
 
-    // TODO: Check four cells to see if they're all legal & all color of current
-    // player
+    for (let cell of cells) {
+      let y = cell[0];
+      let x = cell[1];
+      if (board[y][x] === undefined || board[y][x] !== currPlayer) {
+        return false;
+      }
+    }
 
+    return true;
   }
 
   // using HEIGHT and WIDTH, generate "check list" of coordinates
@@ -170,13 +178,13 @@ function checkForWin() {
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      let vert = [[y, x], [y - 1, x], [y - 2, x], [y - 3, x]];
       let diagDL = [[y, x], [y - 1, x - 1], [y - 2, x - 2], [y - 3, x - 3]];
       let diagDR = [[y, x], [y - 1, x + 1], [y - 2, x + 2], [y - 3, x + 3]];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
-        console.log("winner")
+        console.log("winner");
         return true;
       }
     }
