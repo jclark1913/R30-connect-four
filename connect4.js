@@ -26,7 +26,7 @@ function makeBoard() {
   for (let y = 0; y < HEIGHT; y++) {
     board[y] = [];
     for (let x = 0; x < WIDTH; x++) {
-      board[y][x] = undefined;
+      board[y][x] = null;
     }
   }
 }
@@ -76,12 +76,16 @@ function makeHtmlBoard() {
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 5
 
-  for (let y = 5; y >= 0; y--) {
-    if (board[y][x] === undefined) {
+  for (let y = HEIGHT - 1; y >= 0; y--) {
+    console.log('y = ', y, 'x = ', x)
+
+    if (board[y][x] === null) {
       return y;
     }
 
   }
+
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
@@ -159,9 +163,15 @@ function checkForWin() {
     for (let cell of cells) {
       let y = cell[0];
       let x = cell[1];
-      if (board[y][x] === undefined || board[y][x] !== currPlayer) {
+      // Check that y and x is in bounds
+      if ((y <= 5 && y >= 0) && (x >= 0 && x <= 6)) {
+        if (board[y][x] !== currPlayer) {
+          return false;
+        }
+      } else {
         return false;
       }
+
     }
 
     return true;
